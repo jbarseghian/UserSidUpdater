@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="true" scan="true"
+	scanPeriod="5 seconds">
+
+	<property name="LOGS_DIR" value="logs" />
+	<property name="MAX_FILE_SIZE" value="500MB" />
+	<property name="MAX_HISTORY" value="5" /><!-- days of History -->
+
+	<!-- Rolling Application Support File appender -->
+	<appender name="APP"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOGS_DIR}/application.log</File>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOGS_DIR}/application.%d{yyyy-MM-dd}.%i.log.zip
+			</FileNamePattern>
+			<maxHistory>${MAX_HISTORY}</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d [%thread] %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="TRACE">
+		<appender-ref ref="APP" />
+	</root>
+</configuration>
